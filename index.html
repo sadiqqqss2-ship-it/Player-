@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Mahnı Pleyer</title>
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#10131a">
 <style>
   :root{
@@ -31,22 +32,8 @@
     padding:24px;
     gap:28px;
   }
-  .label{
-    font-size:13px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--text-dim);
-  }
-  .title{
-    font-size:20px;
-    font-weight:600;
-    margin:0;
-    text-align:center;
-    max-width:280px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-  }
+  .label{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);}
+  .title{font-size:20px;font-weight:600;margin:0;text-align:center;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .disc{
     width:190px;height:190px;
     border-radius:50%;
@@ -60,81 +47,20 @@
     animation-play-state:paused;
   }
   .disc.playing{animation-play-state:running;}
-  .disc::after{
-    content:"";
-    width:13px;height:13px;
-    border-radius:50%;
-    background:var(--accent);
-    position:absolute;
-  }
+  .disc::after{content:"";width:13px;height:13px;border-radius:50%;background:var(--accent);position:absolute;}
   @keyframes spin{to{transform:rotate(360deg);}}
-
-  .controls{
-    display:flex;
-    align-items:center;
-    gap:22px;
-  }
-  button.round{
-    border:none;
-    background:var(--card);
-    color:var(--text);
-    border-radius:50%;
-    width:48px;height:48px;
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-  }
+  .controls{display:flex;align-items:center;gap:22px;}
+  button.round{border:none;background:var(--card);color:var(--text);border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
   button.round svg{width:20px;height:20px;fill:var(--text);}
-  button#playBtn{
-    width:78px;height:78px;
-    background:var(--accent);
-  }
+  button#playBtn{width:78px;height:78px;background:var(--accent);}
   button#playBtn svg{width:28px;height:28px;fill:#10131a;}
   button.round:active{transform:scale(.93);}
-
-  .progress-wrap{
-    width:100%;
-    max-width:320px;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-  }
-  input[type=range]{
-    width:100%;
-    -webkit-appearance:none;
-    height:4px;
-    border-radius:2px;
-    background:var(--card);
-    outline:none;
-  }
-  input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    width:14px;height:14px;
-    border-radius:50%;
-    background:var(--accent);
-  }
-  .time-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:11px;
-    color:var(--text-dim);
-  }
-
-  .pick-btn{
-    border:1px solid var(--card);
-    background:var(--bg-soft);
-    color:var(--accent);
-    padding:12px 22px;
-    border-radius:24px;
-    font-size:14px;
-    font-weight:600;
-    cursor:pointer;
-  }
-  .status{
-    font-size:13px;
-    color:var(--text-dim);
-    min-height:18px;
-    text-align:center;
-  }
+  .progress-wrap{width:100%;max-width:320px;display:flex;flex-direction:column;gap:6px;}
+  input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--card);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);}
+  .time-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);}
+  .pick-btn{border:1px solid var(--card);background:var(--bg-soft);color:var(--accent);padding:12px 22px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;}
+  .status{font-size:13px;color:var(--text-dim);min-height:18px;text-align:center;}
   #fileInput{display:none;}
 </style>
 </head>
@@ -142,9 +68,7 @@
   <div class="wrap">
     <div class="label">Mahnı Pleyer</div>
     <h1 class="title" id="trackName">Fayl seçilməyib</h1>
-
     <div class="disc" id="disc"></div>
-
     <div class="progress-wrap">
       <input type="range" id="seek" min="0" max="100" value="0">
       <div class="time-row">
@@ -152,32 +76,34 @@
         <span id="durTime">0:00</span>
       </div>
     </div>
-
     <div class="controls">
-      <button class="round" id="backBtn" aria-label="Geri">
+      <button class="round" id="backBtn">
         <svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
       </button>
-      <button class="round" id="playBtn" aria-label="Play/Pause">
+      <button class="round" id="playBtn">
         <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
       </button>
-      <button class="round" id="fwdBtn" aria-label="İrəli">
+      <button class="round" id="fwdBtn">
         <svg viewBox="0 0 24 24"><path d="M13 6v12l8.5-6L13 6zM4 6v12l8.5-6L4 6z"/></svg>
       </button>
     </div>
-
     <button class="pick-btn" id="pickBtn">Telefondan mahnı seç</button>
     <input type="file" id="fileInput" accept="audio/*">
-
     <div class="status" id="status">Mahnı seçin</div>
   </div>
 
 <audio id="audio"></audio>
 
 <script>
-// Capacitor plugin yüklənməsi
-// Native olduqda window.Capacitor mövcud olur
-const isNative = !!(window.Capacitor && window.Capacitor.isNativePlatform());
+// Native Capacitor icazə sorğusu
+window.addEventListener('load', async function() {
+  if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) {
+    try {
+      await window.Capacitor.Plugins.Filesystem.requestPermissions();
+    } catch(e) {}
+  }
+});
 
 const audio = document.getElementById('audio');
 const fileInput = document.getElementById('fileInput');
@@ -203,103 +129,21 @@ function formatTime(sec){
   return m + ':' + s;
 }
 
-// --- Native icazə + fayl seçimi (Capacitor) ---
-async function requestPermissionAndPick() {
-  try {
-    // Capacitor Permissions API
-    const { Permissions } = window.Capacitor.Plugins;
-    const { FilePicker } = window.Capacitor.Plugins;
+pickBtn.addEventListener('click', () => fileInput.click());
 
-    // Android 13+ üçün READ_MEDIA_AUDIO, köhnə üçün READ_EXTERNAL_STORAGE
-    // Permissions plugin hər ikisini idarə edir
-    if (Permissions) {
-      // Android versiyasına görə uyğun icazəni yoxla
-      let permResult;
-      try {
-        permResult = await Permissions.query({ name: 'read-media-audio' });
-      } catch(e) {
-        permResult = await Permissions.query({ name: 'storage' });
-      }
-
-      if (permResult.state === 'denied') {
-        status.textContent = 'İcazə rədd edildi. Tətbiq parametrlərindən icazə verin.';
-        return;
-      }
-      if (permResult.state === 'prompt' || permResult.state === 'prompt-with-rationale') {
-        let reqResult;
-        try {
-          reqResult = await Permissions.request({ name: 'read-media-audio' });
-        } catch(e) {
-          reqResult = await Permissions.request({ name: 'storage' });
-        }
-        if (reqResult.state === 'denied') {
-          status.textContent = 'İcazə verilmədi.';
-          return;
-        }
-      }
-    }
-
-    // FilePicker plugin ilə fayl seç
-    if (FilePicker) {
-      const result = await FilePicker.pickFiles({
-        types: ['audio/*'],
-        multiple: false,
-        readData: false
-      });
-      if (result.files && result.files.length > 0) {
-        const picked = result.files[0];
-        // path və ya webPath istifadə et
-        const src = picked.webPath || picked.path;
-        const name = picked.name || 'Mahnı';
-        loadTrack(src, name);
-      }
-    } else {
-      // FilePicker yoxdursa standart input
-      fileInput.click();
-    }
-  } catch(err) {
-    console.error('Native pick error:', err);
-    // Fallback: brauzer fayl seçicisi
-    fileInput.click();
-  }
-}
-
-function loadTrack(src, name) {
-  audio.src = src;
-  trackName.textContent = name.replace(/\.[^/.]+$/, '');
-  status.textContent = 'Hazırdır — Play düyməsinə basın';
-  audio.play().catch(() => {
-    status.textContent = 'Hazırdır — Play düyməsinə basın';
-  });
-}
-
-// --- Düymə məntiqi ---
-pickBtn.addEventListener('click', () => {
-  if (isNative) {
-    requestPermissionAndPick();
-  } else {
-    fileInput.click();
-  }
-});
-
-// Brauzer fallback
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
-  if (!file) return;
+  if(!file) return;
   const url = URL.createObjectURL(file);
-  loadTrack(url, file.name);
+  audio.src = url;
+  trackName.textContent = file.name.replace(/\.[^/.]+$/, '');
+  status.textContent = 'Hazırdır — Play düyməsinə basın';
+  audio.play().catch(()=>{});
 });
 
 playBtn.addEventListener('click', () => {
-  if (!audio.src) {
-    status.textContent = 'Əvvəlcə mahnı seçin';
-    return;
-  }
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
+  if(!audio.src){ status.textContent = 'Əvvəlcə mahnı seçin'; return; }
+  if(audio.paused){ audio.play(); } else { audio.pause(); }
 });
 
 audio.addEventListener('play', () => {
@@ -313,9 +157,7 @@ audio.addEventListener('pause', () => {
   disc.classList.remove('playing');
   iconPlay.style.display = 'block';
   iconPause.style.display = 'none';
-  if (audio.currentTime > 0 && !audio.ended) {
-    status.textContent = 'Dayandırıldı';
-  }
+  if(audio.currentTime > 0 && !audio.ended) status.textContent = 'Dayandırıldı';
 });
 
 audio.addEventListener('ended', () => {
@@ -331,27 +173,17 @@ audio.addEventListener('loadedmetadata', () => {
 });
 
 audio.addEventListener('timeupdate', () => {
-  if (!isSeeking) {
+  if(!isSeeking){
     seek.value = audio.currentTime;
     curTime.textContent = formatTime(audio.currentTime);
   }
 });
 
-seek.addEventListener('input', () => {
-  isSeeking = true;
-  curTime.textContent = formatTime(seek.value);
-});
-seek.addEventListener('change', () => {
-  audio.currentTime = seek.value;
-  isSeeking = false;
-});
+seek.addEventListener('input', () => { isSeeking = true; curTime.textContent = formatTime(seek.value); });
+seek.addEventListener('change', () => { audio.currentTime = seek.value; isSeeking = false; });
 
-backBtn.addEventListener('click', () => {
-  audio.currentTime = Math.max(0, audio.currentTime - 10);
-});
-fwdBtn.addEventListener('click', () => {
-  audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 10);
-});
+backBtn.addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 10); });
+fwdBtn.addEventListener('click', () => { audio.currentTime = Math.min(audio.duration||0, audio.currentTime + 10); });
 </script>
 </body>
 </html>
