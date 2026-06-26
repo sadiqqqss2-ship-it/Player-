@@ -47,9 +47,13 @@ jobs:
       - name: Manifest patch
         run: |
           FILE="android/app/src/main/AndroidManifest.xml"
+          echo "--- Manifest before ---"
+          cat "$FILE"
           if ! grep -q "READ_MEDIA_AUDIO" "$FILE"; then
-            sed -i 's|<application|<uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/><uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/><application|' "$FILE"
+            sed -i 's|<uses-permission android:name="android.permission.INTERNET"/>|<uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>|' "$FILE"
           fi
+          echo "--- Manifest after ---"
+          cat "$FILE"
 
       - name: APK build
         run: |
