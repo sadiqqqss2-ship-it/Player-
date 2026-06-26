@@ -96,15 +96,6 @@
 <audio id="audio"></audio>
 
 <script>
-// Native Capacitor icazə sorğusu
-window.addEventListener('load', async function() {
-  if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Filesystem) {
-    try {
-      await window.Capacitor.Plugins.Filesystem.requestPermissions();
-    } catch(e) {}
-  }
-});
-
 const audio = document.getElementById('audio');
 const fileInput = document.getElementById('fileInput');
 const pickBtn = document.getElementById('pickBtn');
@@ -129,7 +120,40 @@ function formatTime(sec){
   return m + ':' + s;
 }
 
-pickBtn.addEventListener('click', () => fileInput.click());
+// Capacitor icazə sorğusu - düyməyə basılanda
+async function requestPermissionAndPick() {
+  const Capacitor = window.Capacitor;
+
+  // Capacitor mövcuddursa (Android/iOS tətbiq)
+  if (Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform()) {
+    try {
+      const { Filesystem } = Capacitor.Plugins;
+
+      if (Filesystem) {
+        // İcazə vəziyyətini yoxla
+        const permResult = await Filesystem.checkPermissions();
+
+        if (permResult.publicStorage !== 'granted') {
+          // İcazə yoxdur — sistem popup-unu göstər
+          status.textContent = 'İcazə tələb edilir...';
+          const reqResult = await Filesystem.requestPermissions();
+
+          if (reqResult.publicStorage !== 'granted') {
+            status.textContent = 'İcazə verilmədi. Ayarlara keçin.';
+            return;
+          }
+        }
+      }
+    } catch(e) {
+      console.error('İcazə xətası:', e);
+    }
+  }
+
+  // İcazə verilibsə və ya brauzerdə işləyirsə — faylı aç
+  fileInput.click();
+}
+
+pickBtn.addEventListener('click', requestPermissionAndPick);
 
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
