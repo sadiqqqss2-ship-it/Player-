@@ -48,10 +48,8 @@ jobs:
         run: |
           FILE="android/app/src/main/AndroidManifest.xml"
           if ! grep -q "READ_MEDIA_AUDIO" "$FILE"; then
-            sed -i 's|</manifest>|    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>\n</manifest>|' "$FILE"
+            sed -i 's|</manifest>|    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>\n    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>\n</manifest>|' "$FILE"
           fi
-          echo "--- Manifest ---"
-          cat "$FILE"
 
       - name: APK build
         run: |
