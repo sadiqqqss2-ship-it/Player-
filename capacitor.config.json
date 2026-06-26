@@ -1,0 +1,14 @@
+{
+  "appId": "az.mahnipleyer.app",
+  "appName": "Mahnı Pleyer",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "android": {
+    "minWebViewVersion": 60
+  },
+  "plugins": {
+    "FilePicker": {
+      "formats": ["audio/*"]
+    }
+  }
+}
