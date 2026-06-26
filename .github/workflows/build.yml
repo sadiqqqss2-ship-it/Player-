@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Node.js 20
+      - name: Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -30,7 +30,7 @@ jobs:
       - name: Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Capacitor Android əlavə et
+      - name: Capacitor Android add
         run: |
           if [ ! -d "android" ]; then
             npx cap add android
@@ -43,6 +43,11 @@ jobs:
             sed -i 's|<uses-permission android:name="android.permission.INTERNET"/>|<uses-permission android:name="android.permission.INTERNET"/>\n    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>\n    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>|' "$MANIFEST"
           fi
 
+      - name: www qovluğu yarat
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+
       - name: Capacitor sync
         run: npx cap sync android
 
@@ -52,7 +57,7 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
-      - name: APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: mahni-pleyer-debug
